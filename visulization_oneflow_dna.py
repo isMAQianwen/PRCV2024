@@ -61,7 +61,7 @@ class Trainer(object):
         tbar = tqdm(self.test_data)
         with torch.no_grad():
             num = 0
-            for i, ( data, labels) in enumerate(tbar):
+            for i, ( data, labels, size) in enumerate(tbar):
                 data = data.cuda()
                 labels = labels.cuda()
                 if args.deep_supervision == 'True':
@@ -69,7 +69,7 @@ class Trainer(object):
                     pred =preds[-1]
                 else:
                     pred = self.model(data)
-                save_Pred_GT(pred,visulization_path, val_img_ids, num, args.suffix)
+                save_Pred_GT(pred,visulization_path, val_img_ids, num, args.suffix,size)
                 num += 1
 
            # total_visulization_generation(dataset_dir, args.mode, test_txt, args.suffix, visulization_path, visulization_fuse_path)
