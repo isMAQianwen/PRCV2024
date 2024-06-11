@@ -125,6 +125,7 @@ class TestSetLoader(Dataset):
         if mask.mode != 'L':
             mask = mask.convert('L')
         # synchronized transform
+        H,W =img.size
         img, mask = self._testval_sync_transform(img, mask)
 
         # general resize, normalize and toTensor
@@ -133,7 +134,7 @@ class TestSetLoader(Dataset):
         mask = np.expand_dims(mask, axis=0).astype('float32') / 255.0
 
 
-        return img, torch.from_numpy(mask)  # img_id[-1]
+        return img, torch.from_numpy(mask), [H,W]  # img_id[-1]
 
     def __len__(self):
         return len(self._items)
