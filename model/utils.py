@@ -374,7 +374,7 @@ def make_visulization_dir(target_image_path):
     #     shutil.rmtree(target_dir)  # 删除目录，包括目录下的所有文件
     # os.mkdir(target_dir)
 
-def save_Pred_GT(pred, target_image_path, val_img_ids, num, suffix):
+def save_Pred_GT(pred, target_image_path, val_img_ids, num, suffix,size):
 
     predsss = np.array((pred > 0).cpu()).astype('int64') * 255
     predsss = np.uint8(predsss)
@@ -382,6 +382,8 @@ def save_Pred_GT(pred, target_image_path, val_img_ids, num, suffix):
     #labelsss = np.uint8(labelsss.cpu())
 
     img = Image.fromarray(predsss.reshape(256, 256))
+    new_size = (size[0], size[1])
+    img = img.resize(new_size, resample=Image.Resampling.BILINEAR)
     img.save(target_image_path + '/' + '%s' % (val_img_ids[num]) +suffix)
     #img = Image.fromarray(labelsss.reshape(256, 256))
     #img.save(target_image_path + '/' + '%s_GT' % (val_img_ids[num]) + suffix)
